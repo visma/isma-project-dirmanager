@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true" name="Drainer"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Drainer (2)</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+    <!-- SOURCE -->
+    <mkdir dir="${tmpSourceDir}"/>
+    <mkdir dir="${tmpSourceDir}/taff"/>
+    <mkdir dir="${tmpSourceDir}/movies"/>
+    <mkdir dir="${tmpSourceDir}/ziks"/>
+
+    <copy file="${resourceFileDir}/empty.txt" tofile="${tmpSourceDir}/winzip.exe"/>
+    <copy file="${resourceFileDir}/file.txt" tofile="${tmpSourceDir}/taff/cv.doc"/>
+    <copy file="${resourceFileDir}/file2.txt" tofile="${tmpSourceDir}/impots_2010.html"/>
+    <copy file="${resourceFileDir}/file3.txt" tofile="${tmpSourceDir}/impots_2011.html"/>
+
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/movies/BrainDead.avi"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/movies/E.T.avi"/>
+
+    <copy file="${resourceFileDir}/five_char_file_3.txt" tofile="${tmpSourceDir}/ziks/saintseya_hyoga_theme.mp3"/>
+    <!-- TARGET -->
+    <mkdir dir="${tmpTargetDir}"/>
+    <mkdir dir="${tmpTargetDir}/administratif"/>
+    <mkdir dir="${tmpTargetDir}/multimedia"/>
+    <mkdir dir="${tmpTargetDir}/multimedia/mp3"/>
+    <mkdir dir="${tmpTargetDir}/multimedia/films"/>
+
+    <copy file="${resourceFileDir}/file2.txt" tofile="${tmpTargetDir}/administratif/imposition_2010.html"/>
+    <copy file="${resourceFileDir}/five_char_file_3.txt"
+          tofile="${tmpTargetDir}/multimedia/mp3/saintseya_hyoga_theme.mp3"/>
+
+    <gui-test>
+        <group name="chargement arbres">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}"/>
+            <setValue name="targetTextField" value="${tmpTargetDir}"/>
+            <click name="refreshButton"/>
+        </group>
+        <group name="contrôle de l'arbre source">
+            <click name="expandButton"/>
+            <assertTree name="sourceTree" path="source" exists="true" row="0" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:impots_2010.html" exists="true" row="1" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:impots_2011.html" exists="true" row="2" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:movies" exists="true" row="3" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:movies:BrainDead.avi" exists="true" row="4"
+                        foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:movies:E.T.avi" exists="true" row="5" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:taff" exists="true" row="6" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:taff:cv.doc" exists="true" row="7" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:winzip.exe" exists="true" row="8" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:ziks" exists="true" row="9" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:ziks:saintseya_hyoga_theme.mp3" exists="true" row="10"
+                        foreground="0,0,0"/>
+        </group>
+        <group name="contrôle de l'arbre cible">
+            <assertTree name="targetTree" path="target" exists="true" row="0" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES" exists="true" row="1" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:administratif" exists="true" row="2" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:administratif:imposition_2010.html" exists="true" row="3" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia" exists="true" row="4" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:films" exists="true" row="5" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:mp3" exists="true" row="6" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:mp3:saintseya_hyoga_theme.mp3" exists="true" row="7" foreground="0,0,0"/>
+        </group>
+        <group name="contrôle de l'arbre source après synchro">
+            <click name="runButton"/>
+            <assertTree name="sourceTree" path="source" exists="true" row="0" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:impots_2010.html" exists="true" row="1" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:impots_2011.html" exists="true" row="2" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:movies" exists="true" row="3" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:movies:BrainDead.avi" exists="true" row="4" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:movies:E.T.avi" exists="true" row="5" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:taff" exists="true" row="6" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:taff:cv.doc" exists="true" row="7" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:winzip.exe" exists="true" row="8" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:ziks" exists="true" row="9" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:ziks:saintseya_hyoga_theme.mp3" exists="true" row="10"
+                        foreground="0,0,0"/>
+        </group>
+        <group name="contrôle de l'arbre cible après synchro">
+            <click name="expandButton"/>
+            <assertTree name="targetTree" path="target" exists="true" row="0" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES" exists="true" row="1" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:movies" exists="true" row="2" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:movies:BrainDead.avi" exists="true" row="3" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:movies:E.T.avi" exists="true" row="4" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:taff" exists="true" row="5" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:taff:cv.doc" exists="true" row="6" foreground="0,178,0"/>
+
+            <assertTree name="targetTree" path="target:impots_2011.html" exists="true" row="7" foreground="0,178,0"/>
+
+            <assertTree name="targetTree" path="target:administratif" exists="true" row="8" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:administratif:imposition_2010.html" exists="true" row="9" foreground="0,0,0"/>
+
+            <assertTree name="targetTree" path="target:multimedia" exists="true" row="10" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:films" exists="true" row="11" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:mp3" exists="true" row="12" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:multimedia:mp3:saintseya_hyoga_theme.mp3" exists="true" row="13" foreground="0,0,0"/>
+
+            <assertTree name="targetTree" path="target:winzip.exe" exists="true" row="14" foreground="0,178,0"/>
+
+            <assertTree name="targetTree" path="target:_DRAINED_FILES:ziks" exists="false"/>
+            <assertTree name="targetTree" path="target:impots_2010.html" exists="false"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+    <!-- TODO tester physiquement les nouveaux fichiers (c'est chiant je sais...)-->
+</release-test>

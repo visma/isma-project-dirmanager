@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Virtualize"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Tools (fonctionnalité Virtualize)</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/b.TXT"/>
+    <mkdir dir="${tmpSourceDir}/sub1"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/c.TXT"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/the killer - John Woo DvdRip.TXT"/>
+
+    <gui-test>
+        <group name="génération du zip, controle du clipboard">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}existePas"/>
+            <click label="Virtualize"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpSourceDir}existePas is not a valid directory"/>
+            <click label="OK"/>
+
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}"/>
+            <click label="Virtualize"/>
+            <assertValue dialogTitle="archive created" expected="virtual_dir.zip path copied to clipboard"/>
+            <click label="OK"/>
+            <setValue name="sourceDirectoryTextField" value=""/>
+            <click name="sourceDirectoryTextField"/>
+            <pressKey value="ctrl V"/>
+            <assertValue name="sourceDirectoryTextField" expected="${java.io.tmpdir}virtual_dir.zip"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+    <mkdir dir="${tmpDir}/tempUnzip/"/>
+    <unzip src="${java.io.tmpdir}virtual_dir.zip" dest="${tmpDir}/tempUnzip/"/>
+
+    <fail message="${tmpDir}/tempUnzip//virtual_dir/a.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpDir}/tempUnzip//virtual_dir/a.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpDir}/tempUnzip//virtual_dir/b.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpDir}/tempUnzip//virtual_dir/b.TXT" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpDir}/tempUnzip//virtual_dir/sub1/c.TXT is missing">
+        <condition>
+            <not>
+                <available file="${tmpDir}/tempUnzip//virtual_dir/sub1/c.TXT" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpDir}/tempUnzip//virtual_dir/sub1/the killer - John Woo DvdRip.TXT is missing">
+        <condition>
+            <not>
+                <available file="${tmpDir}/tempUnzip//virtual_dir/sub1/the killer - John Woo DvdRip.TXT" type="file"/>
+            </not>
+        </condition>
+    </fail>
+
+</release-test>

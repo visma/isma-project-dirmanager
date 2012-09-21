@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Drainer"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Drainer</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/b.txt"/>
+    <mkdir dir="${tmpSourceDir}/sub1"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/c.txt"/>
+
+    <mkdir dir="${tmpTargetDir}"/>
+    <mkdir dir="${tmpTargetDir}/sub2"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpTargetDir}/sub2/a2.txt"/>
+
+    <gui-test>
+        <group name="chargement d'arbres en echec">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}existepas"/>
+            <setValue name="targetTextField" value="${tmpTargetDir}existepas"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpSourceDir}existepas is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpTargetDir}existepas is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="sourceTextField" value="${tmpDir}"/>
+            <setValue name="targetTextField" value="${tmpSourceDir}"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Sub directory forbidden" expected="${tmpSourceDir} is a subdirectory"/>
+            <click label="OK"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}"/>
+            <setValue name="targetTextField" value="${tmpDir}"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Sub directory forbidden" expected="${tmpSourceDir} is a subdirectory"/>
+            <click label="OK"/>
+        </group>
+        <group name="chargement d'arbres">
+            <setValue name="targetTextField" value="${tmpTargetDir}"/>
+            <click name="refreshButton"/>
+        </group>
+
+        <group name="contrôle de l'arbre source">
+            <assertTree name="sourceTree" path="source" exists="true" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+            <assertTree name="sourceTree" path="source:b.txt" exists="true" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:sub1" exists="true" foreground="0,0,255"/>
+            <assertTree name="sourceTree" path="source:sub1:c.txt" exists="true" foreground="0,0,255"/>
+        </group>
+        <group name="contrôle de l'arbre cible">
+            <assertTree name="targetTree" path="target" exists="true" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES" exists="true" foreground="0,178,0"/>
+            <assertTree name="targetTree" path="target:sub2" exists="true" foreground="0,0,0"/>
+            <assertTree name="targetTree" path="target:sub2:a2.txt" exists="true" foreground="0,0,0"/>
+
+            <assertTree name="targetTree" path="target:a.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:b.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:sub1:c.txt" exists="false"/>
+        </group>
+        <group name="synchronisation et controle des arbres">
+            <click name="runButton"/>
+            <group name="contrôle de l'arbre source">
+                <assertTree name="sourceTree" path="source" exists="true" foreground="0,0,0"/>
+                <assertTree name="sourceTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+                <assertTree name="sourceTree" path="source:b.txt" exists="true" foreground="0,0,0"/>
+                <assertTree name="sourceTree" path="source:sub1:c.txt" exists="true" foreground="0,0,0"/>
+            </group>
+            <group name="contrôle de l'arbre cible">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target" exists="true" row="0" foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:_DRAINED_FILES:sub1:c.txt" exists="true" row="3"
+                            foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:b.txt" exists="true" row="4" foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:sub2:a2.txt" exists="true" row="6" foreground="0,0,0"/>
+
+                <assertTree name="targetTree" path="target:a.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:sub1:c.txt" exists="false"/>
+
+            </group>
+        </group>
+
+        <group name="synchronisation et controle des arbres - passe 2">
+            <click name="runButton"/>
+            <group name="contrôle de l'arbre cible (même état que pour la 1ere fois)">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target" exists="true" row="0" foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:_DRAINED_FILES:sub1:c.txt" exists="true" row="3"
+                            foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:b.txt" exists="true" row="4" foreground="0,178,0"/>
+                <assertTree name="targetTree" path="target:sub2:a2.txt" exists="true" row="6" foreground="0,0,0"/>
+
+                <assertTree name="targetTree" path="target:a.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:sub1:c.txt" exists="false"/>
+            </group>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+    <fail message="${tmpTargetDir}/sub2/a2.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/sub2/a2.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/a.txt must not be copied ! (cause a clone already exists somewhere)">
+        <condition>
+            <available file="${tmpTargetDir}/a.txt" type="file"/>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/b.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/b.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/_DRAINED_FILES/sub1/c.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/_DRAINED_FILES/sub1/c.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+
+</release-test>

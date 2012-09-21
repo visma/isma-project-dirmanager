@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Synchronize"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Synchronize (menu contextuel)</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/SYNCHRO_FILE.txt"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/SOURCE_FILE.txt"/>
+    <mkdir dir="${tmpSourceDir}/SYNCHRO_DIR"/>
+    <mkdir dir="${tmpSourceDir}/SOURCE_DIR"/>
+
+    <mkdir dir="${tmpTargetDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpTargetDir}/SYNCHRO_FILE.txt"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpTargetDir}/TARGET_FILE.txt"/>
+    <mkdir dir="${tmpTargetDir}/SYNCHRO_DIR"/>
+    <mkdir dir="${tmpTargetDir}/TARGET_DIR"/>
+
+    <gui-test>
+        <group name="chargement d'arbres">
+            <assertFrame title="D-Ism directory manager"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="Synchronize" selected="true"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}"/>
+            <setValue name="targetTextField" value="${tmpTargetDir}"/>
+            <click name="refreshButton"/>
+        </group>
+        <group name="contrôle de l'arbre source">
+            <expandAllTree name="sourceTree"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_FILE.txt" exists="true"/>
+            <assertTree name="sourceTree" path="source:SOURCE_FILE.txt" exists="true"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_DIR" exists="true"/>
+            <assertTree name="sourceTree" path="source:SOURCE_DIR" exists="true"/>
+        </group>
+        <group name="contrôle de l'arbre cible">
+            <expandAllTree name="targetTree"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_FILE.txt" exists="true"/>
+            <assertTree name="targetTree" path="target:TARGET_FILE.txt" exists="true"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_DIR" exists="true"/>
+            <assertTree name="targetTree" path="target:TARGET_DIR" exists="true"/>
+            <!-- TODO les trucs en dessous -->
+        </group>
+
+        <group name="renommage d'un fichier synchronisé">
+            <clickRight name="sourceTree" path="source:SYNCHRO_FILE.txt">
+                <assertListSize expected="3"/>
+                <assertList row="0" expected="Open 'SYNCHRO_FILE.txt'"/>
+                <assertList row="1" expected="Rename 'SYNCHRO_FILE.txt'"/>
+                <assertList row="2" expected="Delete 'SYNCHRO_FILE.txt'"/>
+                <select label="Rename 'SYNCHRO_FILE.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'SYNCHRO_FILE.txt'"/>
+            <assertValue name="OptionPane.textField" expected="SYNCHRO_FILE.txt"/>
+            <setValue name="OptionPane.textField" value="SYNCHRO_FILE2.txt"/>
+            <click label="OK"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_FILE.txt" exists="false"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_FILE2.txt" exists="true"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_FILE.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_FILE2.txt" exists="true"/>
+        </group>
+        <group name="renommage d'un fichier non synchronisé a droite">
+            <clickRight name="sourceTree" path="source:SOURCE_FILE.txt">
+                <select label="Rename 'SOURCE_FILE.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'SOURCE_FILE.txt'"/>
+            <assertValue name="OptionPane.textField" expected="SOURCE_FILE.txt"/>
+            <setValue name="OptionPane.textField" value="SOURCE_FILE2.txt"/>
+            <click label="OK"/>
+            <assertTree name="sourceTree" path="source:SOURCE_FILE.txt" exists="false"/>
+            <assertTree name="sourceTree" path="source:SOURCE_FILE2.txt" exists="true"/>
+            <assertTree name="targetTree" path="target:SOURCE_FILE.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:SOURCE_FILE2.txt" exists="false"/>
+        </group>
+        <group name="renommage d'un fichier non synchronisé a gauche">
+            <clickRight name="targetTree" path="target:TARGET_FILE.txt">
+                <select label="Rename 'TARGET_FILE.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'TARGET_FILE.txt'"/>
+            <assertValue name="OptionPane.textField" expected="TARGET_FILE.txt"/>
+            <setValue name="OptionPane.textField" value="TARGET_FILE2.txt"/>
+            <click label="OK"/>
+            <assertTree name="targetTree" path="target:TARGET_FILE.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="true"/>
+            <assertTree name="sourceTree" path="source:TARGET_FILE.txt" exists="false"/>
+            <assertTree name="sourceTree" path="source:TARGET_FILE2.txt" exists="false"/>
+        </group>
+        <group name="renommage d'un dossier synchronisé">
+            <clickRight name="sourceTree" path="source:SYNCHRO_DIR">
+                <assertListSize expected="3"/>
+                <assertList row="0" expected="Open 'SYNCHRO_DIR'"/>
+                <assertList row="1" expected="Rename 'SYNCHRO_DIR'"/>
+                <assertList row="2" expected="Delete 'SYNCHRO_DIR'"/>
+                <select label="Rename 'SYNCHRO_DIR'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'SYNCHRO_DIR'"/>
+            <setValue name="OptionPane.textField" value="SYNCHRO_DIR2"/>
+            <click label="OK"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_DIR" exists="false"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="true"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_DIR" exists="false"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="true"/>
+        </group>
+        <group name="renommage d'un dossier non synchronisé a droite">
+            <clickRight name="sourceTree" path="source:SOURCE_DIR">
+                <select label="Rename 'SOURCE_DIR'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'SOURCE_DIR'"/>
+            <assertValue name="OptionPane.textField" expected="SOURCE_DIR"/>
+            <setValue name="OptionPane.textField" value="SOURCE_DIR2"/>
+            <click label="OK"/>
+            <assertTree name="sourceTree" path="source:SOURCE_DIR" exists="false"/>
+            <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+            <assertTree name="targetTree" path="target:SOURCE_DIR" exists="false"/>
+            <assertTree name="targetTree" path="target:SOURCE_DIR2" exists="false"/>
+        </group>
+        <group name="renommage d'un dossier non synchronisé a gauche">
+            <clickRight name="targetTree" path="target:TARGET_DIR">
+                <select label="Rename 'TARGET_DIR'"/>
+            </clickRight>
+            <assertValue dialogTitle="Rename" expected="Rename 'TARGET_DIR'"/>
+            <assertValue name="OptionPane.textField" expected="TARGET_DIR"/>
+            <setValue name="OptionPane.textField" value="TARGET_DIR2"/>
+            <click label="OK"/>
+            <assertTree name="targetTree" path="target:TARGET_DIR" exists="false"/>
+            <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            <assertTree name="sourceTree" path="source:TARGET_DIR" exists="false"/>
+            <assertTree name="sourceTree" path="source:TARGET_DIR2" exists="false"/>
+        </group>
+
+        <group name="rechargement et vérification">
+            <click name="refreshButton"/>
+            <group name="verification aucun ancien noms des 2 côtes">
+                <assertTree name="sourceTree" path="source:SOURCE_FILE.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR" exists="false"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_FILE.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR" exists="false"/>
+                <assertTree name="sourceTree" path="source:TARGET_FILE.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:TARGET_DIR" exists="false"/>
+
+                <assertTree name="targetTree" path="target:SOURCE_FILE.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:SOURCE_DIR" exists="false"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_FILE.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_FILE.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR" exists="false"/>
+            </group>
+
+            <group name="verification arbre source">
+                <assertTree name="sourceTree" path="source:TARGET_FILE2.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:TARGET_DIR2" exists="false"/>
+                <assertTree name="sourceTree" path="source:SOURCE_FILE2.txt" exists="true"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_FILE2.txt" exists="true"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="true"/>
+            </group>
+            <group name="verification arbre cible">
+                <assertTree name="targetTree" path="target:SOURCE_FILE2.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:SOURCE_DIR2" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="true"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_FILE2.txt" exists="true"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="true"/>
+            </group>
+        </group>
+
+        <group name="suppression d'un fichier synchronisé">
+            <clickRight name="sourceTree" path="source:SYNCHRO_FILE2.txt">
+                <select label="Delete 'SYNCHRO_FILE2.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'SYNCHRO_FILE2.txt' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_FILE2.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_FILE2.txt" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du fichier synchronisé">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_FILE2.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:SOURCE_FILE2.txt" exists="true"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du fichier synchronisé">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_FILE2.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="true"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            </group>
+        </group>
+        <group name="suppression d'un fichier non synchronisé a droite">
+            <clickRight name="sourceTree" path="source:SOURCE_FILE2.txt">
+                <select label="Delete 'SOURCE_FILE2.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'SOURCE_FILE2.txt' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:SOURCE_FILE2.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:SOURCE_FILE2.txt" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du fichier non synchronisé a droite">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="source:SOURCE_FILE2.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du fichier non synchronisé à droite">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:SOURCE_FILE2.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="true"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            </group>
+        </group>
+        <group name="suppression d'un fichier non synchronisé a gauche">
+            <clickRight name="targetTree" path="target:TARGET_FILE2.txt">
+                <select label="Delete 'TARGET_FILE2.txt'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'TARGET_FILE2.txt' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:TARGET_FILE2.txt" exists="false"/>
+            <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du fichier non synchronisé a gauche">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="source:TARGET_FILE2.txt" exists="false"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du fichier non synchronisé à gauche">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:TARGET_FILE2.txt" exists="false"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="true"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            </group>
+
+        </group>
+        <group name="suppression d'un dossier synchronisé">
+            <clickRight name="sourceTree" path="source:SYNCHRO_DIR2">
+                <select label="Delete 'SYNCHRO_DIR2'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'SYNCHRO_DIR2' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="false"/>
+            <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du dossier synchronisé">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="source:SYNCHRO_DIR2" exists="false"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="true"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du dossier synchronisé">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:SYNCHRO_DIR2" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            </group>
+        </group>
+        <group name="suppression d'un dossier non synchronisé a droite">
+            <clickRight name="sourceTree" path="source:SOURCE_DIR2">
+                <select label="Delete 'SOURCE_DIR2'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'SOURCE_DIR2' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="false"/>
+            <assertTree name="targetTree" path="target:SOURCE_DIR2" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du dossier non synchronisé a droite">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="source:SOURCE_DIR2" exists="false"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du dossier non synchronisé a droite">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:SOURCE_DIR2" exists="false"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="true"/>
+            </group>
+        </group>
+        <group name="suppression d'un dossier non synchronisé a gauche">
+            <clickRight name="targetTree" path="target:TARGET_DIR2">
+                <select label="Delete 'TARGET_DIR2'"/>
+            </clickRight>
+            <assertValue dialogTitle="Delete" expected="Are you sure to delete 'TARGET_DIR2' ?"/>
+            <click label="Oui"/>
+            <assertTree name="sourceTree" path="source:TARGET_DIR2" exists="false"/>
+            <assertTree name="targetTree" path="target:TARGET_DIR2" exists="false"/>
+            <click name="refreshButton"/>
+            <group name="contrôle de l'arbre source apres suppression du dossier non synchronisé a gauche">
+                <expandAllTree name="sourceTree"/>
+                <assertTree name="sourceTree" path="target:TARGET_DIR2" exists="false"/>
+            </group>
+            <group name="contrôle de l'arbre cible apres suppression du dossier non synchronisé a gauche">
+                <expandAllTree name="targetTree"/>
+                <assertTree name="targetTree" path="target:TARGET_DIR2" exists="false"/>
+            </group>
+        </group>
+
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+</release-test>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Refactor"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Refactor</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/b.TXT"/>
+    <mkdir dir="${tmpSourceDir}/sub1"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/c.TXT"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/the killer - John Woo DvdRip.TXT"/>
+
+    <gui-test>
+        <group name="chargement arbres">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Refactor"/>
+            <setValue name="directoryTextField" value="${tmpSourceDir}existePas"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpSourceDir}existePas is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="directoryTextField" value="${tmpSourceDir}"/>
+            <click name="refreshButton"/>
+            <assertValue expected="3 malformated files found" dialogTitle="Message"/>
+            <click label="OK"/>
+        </group>
+        <group name="rechargement normalement sans incidences">
+            <click name="refreshButton"/>
+            <assertValue expected="3 malformated files found" dialogTitle="Message"/>
+            <click label="OK"/>
+        </group>
+        <group name="vérification des arbres">
+            <assertTree name="actualTree" path="source" exists="true" foreground="255,0,0"/>
+            <assertTree name="actualTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+            <assertTree name="actualTree" path="source:b.TXT" exists="true" foreground="255,0,0"/>
+            <assertTree name="actualTree" path="source:sub1:the killer - John Woo DvdRip.TXT" exists="true"  foreground="255,0,0"/>
+
+            <assertTree name="resultTree" path="source" exists="true"  foreground="0,0,255"/>
+            <assertTree name="resultTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+            <assertTree name="resultTree" path="source:b.txt" exists="true" foreground="0,0,255"/>
+            <assertTree name="resultTree" path="source:sub1:the killer - John Woo.txt" exists="true" foreground="0,0,255"/>
+        </group>
+
+        <group name="vérification des arbres apres renommage">
+            <click name="runButton"/>
+            <expandAllTree name="actualTree"/>
+            <expandAllTree name="resultTree"/>
+            <assertTree name="actualTree" path="source" exists="true" foreground="128,128,128"/>
+            <assertTree name="actualTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+            <assertTree name="actualTree" path="source:b.TXT" exists="true" foreground="128,128,128"/>
+            <assertTree name="actualTree" path="source:sub1:c.TXT" exists="true" foreground="128,128,128"/>
+            <assertTree name="actualTree" path="source:sub1:the killer - John Woo DvdRip.TXT" exists="true" foreground="128,128,128"/>
+
+            <assertTree name="resultTree" path="source" exists="true"  foreground="0,178,0"/>
+            <assertTree name="resultTree" path="source:a.txt" exists="true" foreground="0,0,0"/>
+            <assertTree name="resultTree" path="source:b.txt" exists="true" foreground="0,178,0"/>
+            <assertTree name="resultTree" path="source:sub1:c.txt" exists="true" foreground="0,178,0"/>
+            <assertTree name="resultTree" path="source:sub1:the killer - John Woo.txt" exists="true" foreground="0,178,0"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+    <fail message="${tmpSourceDir}/sub1/the killer - John Woo DvdRip.TXT is not renamed">
+        <condition>
+            <available file="${tmpSourceDir}/sub1/the killer - John Woo DvdRip.TXT" type="file"/>
+        </condition>
+    </fail>
+    <fail message="${tmpSourceDir}/sub1/the killer - John Woo.txt">
+        <condition>
+            <not>
+                <available file="${tmpSourceDir}/sub1/the killer - John Woo.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+
+</release-test>

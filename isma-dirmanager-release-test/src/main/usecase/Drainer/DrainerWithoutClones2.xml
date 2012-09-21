@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Drainer"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Drainer (gestion des clones 2)</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/aClone.txt"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/aClone2.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/b.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/bClone.txt"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/c.txt"/>
+
+
+    <mkdir dir="${tmpTargetDir}"/>
+    <mkdir dir="${tmpTargetDir}/dir"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpTargetDir}/dir/a.txt"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpTargetDir}/dir/c.txt"/>
+
+    <gui-test>
+        <group name="chargement arbres">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <setValue name="sourceTextField" value="${tmpSourceDir}"/>
+            <setValue name="targetTextField" value="${tmpTargetDir}"/>
+            <click name="refreshButton"/>
+        </group>
+        <group name="contrôle de l'arbre source">
+            <assertTree name="sourceTree" path="source" exists="true" row="0"/>
+            <assertTree name="sourceTree" path="source:a.txt" exists="true" row="1"/>
+            <assertTree name="sourceTree" path="source:aClone.txt" exists="true" row="2"/>
+            <assertTree name="sourceTree" path="source:aClone2.txt" exists="true" row="3"/>
+            <assertTree name="sourceTree" path="source:b.txt" exists="true" row="4"/>
+            <assertTree name="sourceTree" path="source:bClone.txt" exists="true" row="5"/>
+            <assertTree name="sourceTree" path="source:c.txt" exists="true" row="6"/>
+        </group>
+        <group name="contrôle de l'arbre cible">
+            <expandAllTree name="targetTree"/>
+            <assertTree name="targetTree" path="target" exists="true" row="0"/>
+            <assertTree name="targetTree" path="target:_DRAINED_FILES" exists="true" row="1"/>
+            <assertTree name="targetTree" path="target:dir" exists="true" row="2"/>
+            <assertTree name="targetTree" path="target:dir:a.txt" exists="true" row="3"/>
+            <assertTree name="targetTree" path="target:dir:c.txt" exists="true" row="4"/>
+        </group>
+        <group name="synchronisation et controle des arbres">
+            <click name="runButton"/>
+            <sleep duration="500"/><!-- TODO éviter si possible (par ex avec un waitingPanel) -->
+            <group name="contrôle de l'arbre source">
+                <assertTree name="sourceTree" path="source" exists="true" row="0"/>
+                <assertTree name="sourceTree" path="source:a.txt" exists="true" row="1"/>
+                <assertTree name="sourceTree" path="source:aClone.txt" exists="true" row="2"/>
+                <assertTree name="sourceTree" path="source:aClone2.txt" exists="true" row="3"/>
+                <assertTree name="sourceTree" path="source:b.txt" exists="true" row="4"/>
+                <assertTree name="sourceTree" path="source:bClone.txt" exists="true" row="5"/>
+                <assertTree name="sourceTree" path="source:c.txt" exists="true" row="6"/>
+            </group>
+            <group name="contrôle de l'arbre cible">
+                <expandAllTree name="targetTree"/>
+                
+                <assertTree name="targetTree" path="target" exists="true" row="0"/>
+                <assertTree name="targetTree" path="target:_DRAINED_FILES" exists="true" row="1"/>
+                <assertTree name="targetTree" path="target:dir" exists="true" row="2"/>
+                <assertTree name="targetTree" path="target:dir:a.txt" exists="true" row="3"/>
+                <assertTree name="targetTree" path="target:dir:c.txt" exists="true" row="4"/>
+                <assertTree name="targetTree" path="target:b.txt" exists="true" row="5"/>
+                <assertTree name="targetTree" path="target:bClone.txt" exists="false" />
+            </group>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+    <fail message="${tmpTargetDir}/dir/a.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/dir/a.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/dir/c.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/dir/c.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/b.txt is missing">
+        <condition>
+            <not>
+                <available file="${tmpTargetDir}/b.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/bClone.txt must not be copied ! (cause it's a clone)">
+        <condition>
+            <available file="${tmpTargetDir}/bClone.txt" type="file"/>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/aClone.txt must not be copied ! (cause it's a clone)">
+        <condition>
+            <available file="${tmpTargetDir}/aClone.txt" type="file"/>
+        </condition>
+    </fail>
+    <fail message="${tmpTargetDir}/aClone2.txt must not be copied ! (cause it's a clone)">
+        <condition>
+            <available file="${tmpTargetDir}/aClone2.txt" type="file"/>
+        </condition>
+    </fail>
+</release-test>

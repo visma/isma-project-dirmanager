@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Log"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Tools (fonctionnalité Log)</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/b.TXT"/>
+    <mkdir dir="${tmpSourceDir}/sub1"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/c.TXT"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/the killer - John Woo DvdRip.TXT"/>
+
+    <gui-test>
+        <group name="génération du log, controle du clipboard">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}existePas"/>
+            <click label="log"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpSourceDir}existePas is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}"/>
+            <click label="log"/>
+            <assertValue dialogTitle="log file created"
+                         expected="dirmanager_treeStructure.txt path copied to clipboard"/>
+            <click label="OK"/>
+            <setValue name="sourceDirectoryTextField" value=""/>
+            <click name="sourceDirectoryTextField"/>
+            <pressKey value="ctrl V"/>
+            <assertValue name="sourceDirectoryTextField" expected="${java.io.tmpdir}dirmanager_treeStructure.txt"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+    <file-assert expected="Log_Etalon.txt" actual="dirmanager_treeStructure.txt"/>
+    <delete file="${java.io.tmpdir}dirmanager_treeStructure.txt"/>
+</release-test>

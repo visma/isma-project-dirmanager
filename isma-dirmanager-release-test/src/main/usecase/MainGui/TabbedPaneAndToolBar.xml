@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="Drainer"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test du tabbedPane de la ToolBar</description>
+
+    <gui-test>
+        <group name="Tests de la ToolBar en état initial (onglet Synchronize par défaut)">
+            <assertFrame title="D-Ism directory manager"/>
+            <assertTabCount name="dirManagerTabbedPane" tabCount="5"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="Synchronize" tabIndex="0"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="Drainer" tabIndex="1"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="ClonesFinder" tabIndex="2"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="Refactor" tabIndex="3"/>
+            <assertTab name="dirManagerTabbedPane" tabLabel="Tools" tabIndex="4"/>
+        </group>
+        <group name="Tests de la ToolBar en état initial (onglet Synchronize par défaut)">
+            <assertEnabled name="expandButton" expected="true"/>
+            <assertEnabled name="collapseButton" expected="true"/>
+            <assertEnabled name="refreshButton" expected="true"/>
+            <assertEnabled name="runButton" expected="true"/>
+        </group>
+        <group name="Tests de la ToolBar sur l'onglet Drainer">
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <assertEnabled name="expandButton" expected="true"/>
+            <assertEnabled name="collapseButton" expected="true"/>
+            <assertEnabled name="refreshButton" expected="true"/>
+            <assertEnabled name="runButton" expected="true"/>
+        </group>
+        <group name="Tests de la ToolBar sur l'onglet ClonesFinder">
+            <selectTab name="dirManagerTabbedPane" tabLabel="ClonesFinder"/>
+            <assertEnabled name="expandButton" expected="true"/>
+            <assertEnabled name="collapseButton" expected="true"/>
+            <assertEnabled name="refreshButton" expected="true"/>
+            <assertEnabled name="runButton" expected="false"/>
+        </group>
+        <group name="Tests de la ToolBar sur l'onglet Refactor">
+            <selectTab name="dirManagerTabbedPane" tabLabel="Refactor"/>
+            <assertEnabled name="expandButton" expected="true"/>
+            <assertEnabled name="collapseButton" expected="true"/>
+            <assertEnabled name="refreshButton" expected="true"/>
+            <assertEnabled name="runButton" expected="true"/>
+        </group>
+        <group name="Tests de la ToolBar sur l'onglet Tools">
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <assertEnabled name="expandButton" expected="false"/>
+            <assertEnabled name="collapseButton" expected="false"/>
+            <assertEnabled name="refreshButton" expected="false"/>
+            <assertEnabled name="runButton" expected="false"/>
+        </group>
+        <group name="Tests de la ToolBar sur l'onglet Synchronize">
+            <selectTab name="dirManagerTabbedPane" tabLabel="Synchronize"/>
+            <assertEnabled name="expandButton" expected="true"/>
+            <assertEnabled name="collapseButton" expected="true"/>
+            <assertEnabled name="refreshButton" expected="true"/>
+            <assertEnabled name="runButton" expected="true"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+</release-test>

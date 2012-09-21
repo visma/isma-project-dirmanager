@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="ClonesFinder"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet Preferences</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+    <mkdir dir="${tmpSourceDir}"/>
+    <mkdir dir="${tmpTargetDir}"/>
+    <mkdir dir="${tmpSourceDir}/subSource/"/>
+    <mkdir dir="${tmpSourceDir}/subSource2/"/>
+    <mkdir dir="${tmpTargetDir}/subTarget/"/>
+    <mkdir dir="${tmpTargetDir}/subTarget2/"/>
+
+    <gui-test>
+        <group name="Saisie des preferences">
+            <assertFrame title="D-Ism directory manager"/>
+            <click menu="Fichier:Preferences"/>
+            <assertFrame title="Preferences"/>
+            <setValue name="sourcePreferenceTextField" value="${tmpSourceDir}/fakeSubSource/"/>
+            <setValue name="targetPreferenceTextField" value="${tmpTargetDir}/fakeSubTarget/"/>
+            <click label="Save"/>
+            <assertValue dialogTitle="Invalid directory"
+                         expected="${tmpSourceDir}/fakeSubSource/ is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="sourcePreferenceTextField" value="${tmpSourceDir}/subSource/"/>
+            <setValue name="targetPreferenceTextField" value="${tmpTargetDir}/subTarget/"/>
+            <click label="Save"/>
+            <assertFrame title="Configuration saved"/>
+            <click label="OK"/>
+            <assertFrame title="Preferences" closed="true"/>
+        </group>
+        <group name="Controle des champs liés à la configuration">
+            <selectTab name="dirManagerTabbedPane" tabLabel="Synchronize"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="ClonesFinder"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Refactor"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}/subSource/"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+    <gui-test>
+        <group name="Controle des champs liés à la configuration après fermeture/reouverture">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Synchronize"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="ClonesFinder"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Refactor"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}/subSource/"/>
+        </group>
+        <group name="Saisie de nouvelles preferences">
+            <assertFrame title="D-Ism directory manager"/>
+            <click menu="Fichier:Preferences"/>
+            <assertFrame title="Preferences"/>
+            <setValue name="sourcePreferenceTextField" value="${tmpSourceDir}/subSource2/"/>
+            <setValue name="targetPreferenceTextField" value="${tmpTargetDir}/subTarget2/"/>
+            <click label="Save"/>
+            <assertFrame title="Configuration saved"/>
+            <click label="OK"/>
+            <assertFrame title="Preferences" closed="true"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+    <gui-test>
+        <group name="Controle des champs liés à la configuration après fermeture/reouverture (2éme modification">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="Synchronize"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource2/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget2/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Drainer"/>
+            <assertValue name="sourceTextField" expected="${tmpSourceDir}/subSource2/"/>
+            <assertValue name="targetTextField" expected="${tmpTargetDir}/subTarget2/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="ClonesFinder"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource2/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Refactor"/>
+            <assertValue name="directoryTextField" expected="${tmpSourceDir}/subSource2/"/>
+
+            <selectTab name="dirManagerTabbedPane" tabLabel="Tools"/>
+            <setValue name="sourceDirectoryTextField" value="${tmpSourceDir}/subSource2/"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+</release-test>

@@ -1,0 +1,6 @@
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source\a.txt
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source\b.TXT
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source\sub1
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source\sub1\c.TXT
+c:\dev\projects\isma-projects\isma-dirmanager-release-test\target\tmp\source\sub1\the killer - John Woo DvdRip.TXT

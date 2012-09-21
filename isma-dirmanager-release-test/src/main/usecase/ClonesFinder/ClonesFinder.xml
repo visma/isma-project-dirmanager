@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<release-test enabled="true"
+              name="ClonesFinder"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="http://test-release.xsd">
+
+    <description>Test de l'onglet ClonesFinder</description>
+
+    <delete dir="${tmpDir}"/>
+    <mkdir dir="${tmpDir}"/>
+
+    <mkdir dir="${tmpSourceDir}"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/file_v1_a.txt"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/file_v1_b.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/file_v2_a.txt"/>
+    <mkdir dir="${tmpSourceDir}/sub1"/>
+    <copy file="${resourceFileDir}/five_char_file.txt" tofile="${tmpSourceDir}/sub1/file_v1_c.txt"/>
+    <copy file="${resourceFileDir}/five_char_file_2.txt" tofile="${tmpSourceDir}/sub1/file_v2_b.txt"/>
+    <copy file="${resourceFileDir}/ten_char_file.txt" tofile="${tmpSourceDir}/sub1/file_v3_a.txt"/>
+
+    <gui-test>
+        <group name="chargement arbres">
+            <assertFrame title="D-Ism directory manager"/>
+            <selectTab name="dirManagerTabbedPane" tabLabel="ClonesFinder"/>
+            <setValue name="directoryTextField" value="${tmpSourceDir}existePas"/>
+            <click name="refreshButton"/>
+            <assertValue dialogTitle="Invalid directory" expected="${tmpSourceDir}existePas is not a valid directory"/>
+            <click label="OK"/>
+            <setValue name="directoryTextField" value="${tmpSourceDir}"/>
+            <click name="refreshButton"/>
+        </group>
+        <group name="contrôle de l'arbre">
+            <assertTree name="directoryTree" path="root" exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb" exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v1_a.txt"
+                        exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v1_b.txt"
+                        exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/sub1/file_v1_c.txt"
+                        exists="true"/>
+
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb" exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v2_a.txt"
+                        exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb:${tmpSourceDir}/sub1/file_v2_b.txt"
+                        exists="true"/>
+
+            <assertTree name="directoryTree" path="root:file_v3_a.txt -- Size : 0 Kb" exists="false"/>
+        </group>
+        <group name="suppression de clones">
+            <expandAllTree name="directoryTree"/>
+            <clickRight name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v1_b.txt">
+                <assertListSize expected="1"/>
+                <assertList expected="Kill others ?" row="0"/>
+                <select label="Kill others ?"/>
+            </clickRight>
+            <assertValue dialogTitle="Clone Eradication" expected="Keep only '${tmpSourceDir}/file_v1_b.txt' ?"/>
+            <click label="OK"/>
+        </group>
+        <group name="contrôle de l'arbre apres suppression d'une série de clones">
+            <assertTree name="directoryTree" path="root" exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb" exists="false"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v1_a.txt"
+                        exists="false"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v1_b.txt"
+                        exists="false"/>
+            <assertTree name="directoryTree" path="root:file_v1_a.txt -- Size : 0 Kb:${tmpSourceDir}/sub1/file_v1_c.txt"
+                        exists="false"/>
+
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb" exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb:${tmpSourceDir}/file_v2_a.txt"
+                        exists="true"/>
+            <assertTree name="directoryTree" path="root:file_v2_a.txt -- Size : 0 Kb:${tmpSourceDir}/sub1/file_v2_b.txt"
+                        exists="true"/>
+
+            <assertTree name="directoryTree" path="root:file_v3_a.txt -- Size : 0 Kb" exists="false"/>
+        </group>
+        <group name="fermeture">
+            <assertEnabled expected="true" menu="Fichier:Quitter"/>
+            <click menu="Fichier:Quitter"/>
+        </group>
+    </gui-test>
+
+    <fail message="clone ${tmpSourceDir}/file_v1_a.txt is not deleted">
+        <condition>
+            <available file="${tmpSourceDir}/file_v1_a.txt" type="file"/>
+        </condition>
+    </fail>
+    <fail message="clone ${tmpSourceDir}/file_v1_b.txt must not be deleted (choosed as the original file)">
+        <condition>
+            <not>
+                <available file="${tmpSourceDir}/file_v1_b.txt" type="file"/>
+            </not>
+        </condition>
+    </fail>
+    <fail message="clone ${tmpSourceDir}/sub1/file_v1_c.txt is not deleted">
+        <condition>
+            <available file="${tmpSourceDir}/sub1/file_v1_c.txt" type="file"/>
+        </condition>
+    </fail>
+
+</release-test>
