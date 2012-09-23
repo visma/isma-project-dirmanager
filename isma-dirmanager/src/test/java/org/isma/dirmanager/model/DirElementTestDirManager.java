@@ -94,8 +94,6 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
 
         String absoluteFilePath = getAbsolutePathTestRootDir() + "dir1\\dir2\\" + FILE_SHORT_1;
         AbstractFileElement fileFound = rootDir.getFileElement(absoluteFilePath);
-        System.out.println("file1    =" + file1.getFile().getAbsolutePath());
-        System.out.println("fileFound=" + fileFound.getFile().getAbsolutePath());
         assertEquals(file1, fileFound);
 
         absoluteFilePath = getAbsolutePathTestRootDir() + "dir1\\dir2\\dir3\\" + FILE_SHORT_1;

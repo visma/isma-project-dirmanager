@@ -97,11 +97,8 @@ public abstract class AbstractBackupLogic extends AbstractDirManagerLogic<Backup
 
 
     private void initializeJSliderDividerLocation() {
-        System.out.println("in");
         if (form.getMainPanel().getRootPane() != null) {
-            System.out.println("in2");
             final int width = form.getMainPanel().getRootPane().getWidth();
-            System.out.println("in2 width" + width);
             form.getSliderPane().setDividerLocation(width / 2);
         }
     }

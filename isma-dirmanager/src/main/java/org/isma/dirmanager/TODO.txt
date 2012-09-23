@@ -1,0 +1,1 @@
+gérer plus proprement les séparateurs de répertoires (pas avec des backslashes quoi, ça marche que pour windows)et homonégéiser un peu tout ça (ç'est crade)
