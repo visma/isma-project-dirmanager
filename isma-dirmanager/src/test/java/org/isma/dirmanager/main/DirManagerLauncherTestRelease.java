@@ -5,7 +5,7 @@ public class DirManagerLauncherTestRelease extends DirManagerLauncher {
 
 
     @Override
-    protected boolean mustDisplaySplashScreen() {
+    protected boolean showSplashScreen() {
         return false;
     }
 
