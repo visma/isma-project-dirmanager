@@ -24,7 +24,7 @@ public class FileSynchronisationMarker {
     public void markSynchronisation(AbstractFileElement sourceFileElement) throws Exception {
         String targetRootPath = targetRootDirElement.getFile().getAbsolutePath();
         String sourceRelativePathFile = sourceRootDirElement.getFileElementRelativePath(sourceFileElement);
-        String targetAbsolutePathFile = targetRootPath + "\\" + sourceRelativePathFile;
+        String targetAbsolutePathFile = targetRootPath + "/" + sourceRelativePathFile;
 
         File targetFile = new File(targetAbsolutePathFile);
         boolean synchro = targetFile.exists();

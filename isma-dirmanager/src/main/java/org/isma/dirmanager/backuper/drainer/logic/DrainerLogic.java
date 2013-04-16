@@ -40,7 +40,7 @@ public class DrainerLogic extends AbstractBackupLogic {
     private void createDrainedFilesDir(DirElement targetRoot) throws Exception {
         logger.log("Creating drained directory...");
         String targetRootPath = targetRoot.getFile().getAbsolutePath();
-        String targetDrainedRootPath = targetRootPath + "\\" + DRAIN_DIRNAME + "\\";
+        String targetDrainedRootPath = targetRootPath + "/" + DRAIN_DIRNAME + "/";
         File dir = new File(targetDrainedRootPath);
         if (dir.exists()) {
             return;

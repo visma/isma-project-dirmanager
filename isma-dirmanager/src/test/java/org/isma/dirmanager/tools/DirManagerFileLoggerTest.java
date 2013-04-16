@@ -10,7 +10,7 @@ public class DirManagerFileLoggerTest extends AbstractDirManagerFileTestCase {
     public void testlog() throws IOException {
         FileLogger logger = new FileLogger();
 
-        File logFile = new File(TEST_ROOT_DIR + "\\log.log");
+        File logFile = new File(TEST_ROOT_DIR + "/log.log");
         logger.open(logFile);
         logger.log("test%s line1%s", "log", GlobalProperties.getLineSeparator());
         logger.log("test%s line2%s", "log", GlobalProperties.getLineSeparator());

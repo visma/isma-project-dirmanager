@@ -21,7 +21,7 @@ public class DirManagerFileDrainerMarkerTest extends AbstractDirManagerFileTestC
         BackuperFileElement file1Source = (BackuperFileElement)dirSource.findChild(FILE_SHORT_1);
         BackuperFileElement file2Source = (BackuperFileElement)dirSource.findChild(FILE_SHORT_2);
         BackuperDirElement dirEmptySource = (BackuperDirElement)dirSource.getFileElement(
-              getAbsolutePathTestRootDir() + "source\\dirEmpty");
+              getAbsolutePathTestRootDir() + "source/dirEmpty");
         //Initial state
         assertTrue(file1Source.isSynchronized());
         assertTrue(file2Source.isSynchronized());
@@ -45,9 +45,9 @@ public class DirManagerFileDrainerMarkerTest extends AbstractDirManagerFileTestC
         BackuperFileElement file2Source = (BackuperFileElement)dirSource.findChild(FILE_SHORT_2);
         BackuperFileElement file3Source = (BackuperFileElement)dirSource.findChild(FILE_SHORT_TEN_CHAR);
         BackuperDirElement dirEmptySource = (BackuperDirElement)dirSource.getFileElement(
-              getAbsolutePathTestRootDir() + "source\\dirEmpty");
+              getAbsolutePathTestRootDir() + "source/dirEmpty");
         BackuperDirElement dirSynchroContent = (BackuperDirElement)dirSource.getFileElement(
-              getAbsolutePathTestRootDir() + "source\\dirSynchroContent");
+              getAbsolutePathTestRootDir() + "source/dirSynchroContent");
         //Initial state
         assertTrue(file1Source.isSynchronized());
         assertTrue(file2Source.isSynchronized());
@@ -70,40 +70,40 @@ public class DirManagerFileDrainerMarkerTest extends AbstractDirManagerFileTestC
 
     private DirElement buildSynchroSource() throws Exception {
         DirElement source = buildDir("source");
-        DirElement dir1 = buildDir("\\source\\dir1");
-        DirElement dirEmpty = buildDir("\\source\\dirEmpty");
-        DirElement dirSynchroContent = buildDir("\\source\\dirSynchroContent");
+        DirElement dir1 = buildDir("/source/dir1");
+        DirElement dirEmpty = buildDir("/source/dirEmpty");
+        DirElement dirSynchroContent = buildDir("/source/dirSynchroContent");
         source.addFileElement(dir1);
         source.addFileElement(dirEmpty);
         source.addFileElement(dirSynchroContent);
-        dir1.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_1));
-        dir1.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_2));
-        dirSynchroContent.addFileElement(buildFileElement("\\source\\dirSynchroContent\\", FILE_SHORT_TEN_CHAR));
+        dir1.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_1));
+        dir1.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_2));
+        dirSynchroContent.addFileElement(buildFileElement("/source/dirSynchroContent/", FILE_SHORT_TEN_CHAR));
         return source;
     }
 
 
     private DirElement buildSynchroTarget() throws Exception {
         DirElement target = buildDir("target");
-        DirElement dir1 = buildDir("\\target\\dir1");
-        DirElement dirEmpty = buildDir("\\target\\dirEmpty");
+        DirElement dir1 = buildDir("/target/dir1");
+        DirElement dirEmpty = buildDir("/target/dirEmpty");
         target.addFileElement(dir1);
         target.addFileElement(dirEmpty);
-        dir1.addFileElement(buildFileElement("\\target\\dir1", FILE_SHORT_2));
+        dir1.addFileElement(buildFileElement("/target/dir1", FILE_SHORT_2));
         return target;
     }
 
 
     private DirElement buildUnSynchroTarget() throws Exception {
         DirElement target = buildDir("target");
-        target.addFileElement(buildFileElement("\\target\\", FILE_SHORT_TEN_CHAR));
-        DirElement dir1 = buildDir("\\target\\dir1");
-        DirElement subdir = buildDir("\\target\\dir1\\subdir\\");
-        DirElement dirEmpty = buildDir("\\target\\dir1\\subdir\\dirEmpty");
+        target.addFileElement(buildFileElement("/target/", FILE_SHORT_TEN_CHAR));
+        DirElement dir1 = buildDir("/target/dir1");
+        DirElement subdir = buildDir("/target/dir1/subdir/");
+        DirElement dirEmpty = buildDir("/target/dir1/subdir/dirEmpty");
         target.addFileElement(dir1);
         dir1.addFileElement(subdir);
         subdir.addFileElement(dirEmpty);
-        subdir.addFileElement(buildFileElement("\\target\\dir1\\subdir\\", FILE_SHORT_2));
+        subdir.addFileElement(buildFileElement("/target/dir1/subdir/", FILE_SHORT_2));
         return target;
     }
 }

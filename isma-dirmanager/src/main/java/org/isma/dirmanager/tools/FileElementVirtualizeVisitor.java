@@ -36,7 +36,7 @@ public class FileElementVirtualizeVisitor implements FileElementVisitor {
         String absoluteVirtualDirPath = virtualDir.getAbsolutePath();
         String relativePath = rootDirToVirtualize.getFileElementRelativePath(fileElement);
 
-        String filePathToVirtualize = absoluteVirtualDirPath + "\\" + relativePath;
+        String filePathToVirtualize = absoluteVirtualDirPath + "/" + relativePath;
         System.out.println("virtualize " + fileElement.getName() + " ...");
         if (fileElement.isDirectory()) {
             new File(filePathToVirtualize).mkdir();

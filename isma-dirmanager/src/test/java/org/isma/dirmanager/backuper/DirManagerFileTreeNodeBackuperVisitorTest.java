@@ -67,10 +67,10 @@ public class DirManagerFileTreeNodeBackuperVisitorTest extends AbstractDirManage
 
     private DirElement buildTargetDir() throws Exception {
         DirElement targetRoot = buildDir("target");
-        DirElement subDir = buildDir("target\\sub2");
-        FileElement fileA = buildFileElement("target\\sub2\\", FILE_SHORT_1);
+        DirElement subDir = buildDir("target/sub2");
+        FileElement fileA = buildFileElement("target/sub2/", FILE_SHORT_1);
 
-        targetRoot.addChild(buildDir("target\\_DRAINED_FILES"));
+        targetRoot.addChild(buildDir("target/_DRAINED_FILES"));
         targetRoot.addChild(subDir);
         subDir.addChild(fileA);
         return targetRoot;
@@ -79,11 +79,11 @@ public class DirManagerFileTreeNodeBackuperVisitorTest extends AbstractDirManage
 
     private DirElement buildSourceDir() throws Exception {
         DirElement sourceRoot = buildDir("source");
-        FileElement fileA = buildFileElement("source\\", FILE_SHORT_1);
-        FileElement fileB = buildFileElement("source\\", FILE_SHORT_2);
+        FileElement fileA = buildFileElement("source/", FILE_SHORT_1);
+        FileElement fileB = buildFileElement("source/", FILE_SHORT_2);
         ((BackupableFileElement)fileB).setSynchronized(false);
-        DirElement subDir = buildDir("source\\sub1");
-        FileElement fileC = buildFileElement("source\\sub1\\", FILE_SHORT_TEN_CHAR);
+        DirElement subDir = buildDir("source/sub1");
+        FileElement fileC = buildFileElement("source/sub1/", FILE_SHORT_TEN_CHAR);
         ((BackupableFileElement)fileC).setSynchronized(false);
 
         sourceRoot.addChild(fileA);

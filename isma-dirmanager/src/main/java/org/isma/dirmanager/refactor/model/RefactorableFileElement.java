@@ -25,7 +25,7 @@ public class RefactorableFileElement extends FileElement implements Refactorable
     public File getFile() {
         File originalFile = super.getFile();
         if (newName != null) {
-            return new File(originalFile.getParent() + "\\" + newName);
+            return new File(originalFile.getParent() + "/" + newName);
         }
         else {
             return originalFile;

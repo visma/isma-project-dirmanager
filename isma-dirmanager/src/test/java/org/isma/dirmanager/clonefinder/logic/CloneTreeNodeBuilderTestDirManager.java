@@ -25,7 +25,7 @@ public class CloneTreeNodeBuilderTestDirManager extends AbstractDirManagerFileTe
     private DirElement buildRoot() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir1A = buildDir("dir1\\dir1A");
+        DirElement dir1A = buildDir("dir1/dir1A");
         DirElement dir2 = buildDir("dir2");
 
         rootDir.addFileElement(buildFileElement(FILE_SHORT_1));
@@ -34,11 +34,11 @@ public class CloneTreeNodeBuilderTestDirManager extends AbstractDirManagerFileTe
         rootDir.addFileElement(buildFileElement(FILE_SHORT_TEN_CHAR));
 
         dir1.addFileElement(dir1A);
-        dir1.addFileElement(buildFileElement("dir1\\", FILE_SHORT_1));
-        dir1.addFileElement(buildFileElement("dir1\\", FILE_SHORT_1_COPY));
+        dir1.addFileElement(buildFileElement("dir1/", FILE_SHORT_1));
+        dir1.addFileElement(buildFileElement("dir1/", FILE_SHORT_1_COPY));
 
-        dir1A.addFileElement(buildFileElement("dir1\\dir1A", FILE_SHORT_1));
-        dir1A.addFileElement(buildFileElement("dir1\\dir1A", FILE_SHORT_TEN_CHAR));
+        dir1A.addFileElement(buildFileElement("dir1/dir1A", FILE_SHORT_1));
+        dir1A.addFileElement(buildFileElement("dir1/dir1A", FILE_SHORT_TEN_CHAR));
 
         return rootDir;
     }

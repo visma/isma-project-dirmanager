@@ -20,9 +20,9 @@ public class DirManagerFileSynchronizerTest extends AbstractDirManagerFileTestCa
         DirElement target = buildEmptyTarget();
 
         FileSynchronizer synchronizer = new FileSynchronizer(source, target, new DefaultLogger());
-        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\"), 0);
-        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_1), 0);
-        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_2), 1);
+        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/"), 0);
+        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_1), 0);
+        synchronizer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_2), 1);
 
         FileElement file1 = target.findChild(FILE_SHORT_1);
         FileElement file2 = target.findChild(FILE_SHORT_2);
@@ -35,10 +35,10 @@ public class DirManagerFileSynchronizerTest extends AbstractDirManagerFileTestCa
 
     private DirElement buildSource() throws Exception {
         DirElement source = buildDir("source");
-        DirElement dir1 = buildDir("\\source\\dir1");
+        DirElement dir1 = buildDir("/source/dir1");
         source.addFileElement(dir1);
-        dir1.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_1));
-        dir1.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_2));
+        dir1.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_1));
+        dir1.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_2));
         return source;
     }
 

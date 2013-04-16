@@ -9,14 +9,14 @@ import static org.isma.dirmanager.util.FileHelper.windowsUnifyVolumePath;
 public class DirManagerFileHelperTest extends AbstractDirManagerFileTestCase {
 
     public void testWindowsUnifyVolumePath() throws Exception {
-        assertEquals("C:\\toto.txt", windowsUnifyVolumePath("c:\\toto.txt"));
+        assertEquals("C:/toto.txt", windowsUnifyVolumePath("c:/toto.txt"));
     }
 
 
     public void testIsSubDirectory() throws Exception {
         File dir1 = buildDir("dir1").getFile();
         File dir2 = buildDir("dir2").getFile();
-        File subDir1 = buildDir("dir1\\subdir1").getFile();
+        File subDir1 = buildDir("dir1/subdir1").getFile();
 
         assertFalse(isSubDirectory(dir1, dir2));
         assertFalse(isSubDirectory(dir2, dir1));
@@ -26,6 +26,6 @@ public class DirManagerFileHelperTest extends AbstractDirManagerFileTestCase {
     }
 
     public void testhasSamePaths(){
-        assertTrue(FileHelper.hasSamePaths("c:\\dir\\", "c:\\dir"));
+        assertTrue(FileHelper.hasSamePaths("c:/dir/", "c:/dir"));
     }
 }

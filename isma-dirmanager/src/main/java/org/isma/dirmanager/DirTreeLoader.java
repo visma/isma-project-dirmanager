@@ -1,10 +1,13 @@
 package org.isma.dirmanager;
 
+import org.isma.dirmanager.model.AbstractFileElement;
 import org.isma.dirmanager.model.DirElement;
 import org.isma.dirmanager.util.DefaultLogger;
 import org.isma.dirmanager.util.ILogger;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DirTreeLoader {
     private IFileFactory fileFactory;
@@ -51,5 +54,11 @@ public class DirTreeLoader {
                 rootDirElement.addFileElement(fileFactory.buildFile(file));
             }
         }
+        Collections.sort(rootDirElement.getElements(), new Comparator<AbstractFileElement>() {
+            @Override
+            public int compare(AbstractFileElement o1, AbstractFileElement o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
     }
 }

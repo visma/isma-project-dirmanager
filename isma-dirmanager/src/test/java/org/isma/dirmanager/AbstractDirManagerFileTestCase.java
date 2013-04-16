@@ -56,15 +56,15 @@ public abstract class AbstractDirManagerFileTestCase extends AbstractFileTestCas
 
 
     protected void assertFile(AbstractFileElement fileElement, String relativeFilePath) {
-        String absolutePath = suppressDoubleBackSlash(fileElement.getFile().getAbsolutePath() + "\\");
-        String endSuffix = suppressDoubleBackSlash(TEST_ROOT_DIR + relativeFilePath + "\\");
+        String absolutePath = suppressDoubleBackSlash(fileElement.getFile().getAbsolutePath() + "/");
+        String endSuffix = suppressDoubleBackSlash(TEST_ROOT_DIR + relativeFilePath + "/");
         String errorMessage = String.format("'%s' does not end with '%s'", absolutePath, endSuffix);
         assertTrue(errorMessage, absolutePath.endsWith(endSuffix));
     }
 
 
     protected void assertFileExists(String relativeFilePath) {
-        assertTrue(new File(TEST_ROOT_DIR + "\\" + relativeFilePath).exists());
+        assertTrue(new File(TEST_ROOT_DIR + "/" + relativeFilePath).exists());
     }
 
 
@@ -83,11 +83,11 @@ public abstract class AbstractDirManagerFileTestCase extends AbstractFileTestCas
 
 
     private String suppressDoubleBackSlash(String str) {
-        return str.replace("\\\\", "\\");
+        return str.replace("//", "/");
     }
 
 
     protected String getAbsolutePathTestRootDir() {
-        return System.getProperty("user.dir") + "\\" + TEST_ROOT_DIR;
+        return System.getProperty("user.dir") + "/" + TEST_ROOT_DIR;
     }
 }

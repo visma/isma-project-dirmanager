@@ -21,11 +21,11 @@ public class FileHelper {
         if (!dir.isDirectory()) {
             throw new RuntimeException("must be a directory !");
         }
-        return dir.getAbsolutePath() + "\\";
+        return dir.getAbsolutePath() + "/";
     }
 
 
-    //TODO utiliser de manière centralisé si possible
+    //TODO utiliser de maniï¿½re centralisÃ© si possible
     public static String windowsUnifyVolumePath(String filePath) {
         Pattern pattern = Pattern.compile("^[a-z]{1}:.*$");
         Matcher matcher = pattern.matcher(filePath);
@@ -39,11 +39,11 @@ public class FileHelper {
 
 
     public static boolean hasSamePaths(String path1, String path2) {
-        if (!path1.endsWith("\\")) {
-            path1 += "\\";
+        if (!path1.endsWith("/")) {
+            path1 += "/";
         }
-        if (!path2.endsWith("\\")) {
-            path2 += "\\";
+        if (!path2.endsWith("/")) {
+            path2 += "/";
         }
         return path1.equals(path2);
     }

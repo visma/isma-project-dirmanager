@@ -33,7 +33,7 @@ public class FileDrainer implements IFileBackuper {
         this.targetFileMap = new FileMap(targetRootDirElement);
 
         targetRootPath = targetRootDirElement.getFile().getAbsolutePath();
-        targetDrainedRootPath = targetRootPath + "\\" + DRAIN_DIRNAME + "\\";
+        targetDrainedRootPath = targetRootPath + "/" + DRAIN_DIRNAME + "/";
     }
 
 

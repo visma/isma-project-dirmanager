@@ -112,7 +112,7 @@ public class DirElement extends AbstractFileElement {
                 continue;
             }
             DirElement currDir = (DirElement)abstractFileElement;
-            if (fileElement.getFile().getAbsolutePath().startsWith(currDir.getFile().getAbsolutePath() + "\\")) {
+            if (fileElement.getFile().getAbsolutePath().startsWith(currDir.getFile().getAbsolutePath() + "/")) {
                 return currDir.findParent(fileElement);
             }
         }
@@ -141,7 +141,7 @@ public class DirElement extends AbstractFileElement {
             return this;
         }
         if (!childPath.startsWith(currentPath)) {
-            throw new RuntimeException(format("%s ne peut pas être un sous element de %s", childPath, currentPath));
+            throw new RuntimeException(format("%s ne peut pas ï¿½tre un sous element de %s", childPath, currentPath));
         }
         for (AbstractFileElement currFileElement : elements) {
             String currFilePath = FileHelper.windowsUnifyVolumePath(currFileElement.getFile().getAbsolutePath());

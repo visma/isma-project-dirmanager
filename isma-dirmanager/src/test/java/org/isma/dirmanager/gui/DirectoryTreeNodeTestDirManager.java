@@ -16,7 +16,7 @@ public class DirectoryTreeNodeTestDirManager extends AbstractDirManagerFileTestC
         FileElementTreeModel treeModel = new FileElementTreeModel(rootTreeNode);
 
         assertEquals(2, rootTreeNode.getChildCount());
-        rootTreeNode.insertChild(treeModel, buildFileElement("target\\", FILE_SHORT_2), 1);
+        rootTreeNode.insertChild(treeModel, buildFileElement("target/", FILE_SHORT_2), 1);
         assertEquals(3, rootTreeNode.getChildCount());
     }
 
@@ -32,10 +32,10 @@ public class DirectoryTreeNodeTestDirManager extends AbstractDirManagerFileTestC
 
     private DirElement buildTestDir() throws Exception {
         DirElement targetRoot = buildDir("target");
-        DirElement subDir = buildDir("target\\sub2");
-        FileElement fileA = buildFileElement("target\\sub2\\", FILE_SHORT_1);
+        DirElement subDir = buildDir("target/sub2");
+        FileElement fileA = buildFileElement("target/sub2/", FILE_SHORT_1);
 
-        targetRoot.addChild(buildDir("target\\toto"));
+        targetRoot.addChild(buildDir("target/toto"));
         targetRoot.addChild(subDir);
         subDir.addChild(fileA);
         return targetRoot;

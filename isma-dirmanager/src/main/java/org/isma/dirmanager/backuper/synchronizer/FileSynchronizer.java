@@ -31,7 +31,7 @@ public class FileSynchronizer implements IFileBackuper {
     public AbstractFileElement backup(AbstractFileElement sourceFileElement, int childIndex) throws Exception {
         String targetRootPath = targetRootDirElement.getFile().getAbsolutePath();
         String sourceRelativePathFile = sourceRootDirElement.getFileElementRelativePath(sourceFileElement);
-        String targetAbsolutePathFile = targetRootPath + "\\" + sourceRelativePathFile;
+        String targetAbsolutePathFile = targetRootPath + "/" + sourceRelativePathFile;
 
         File targetFile = new File(targetAbsolutePathFile);
         if (targetFile.exists()) {

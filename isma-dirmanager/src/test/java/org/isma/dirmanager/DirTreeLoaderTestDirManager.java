@@ -38,8 +38,8 @@ public class DirTreeLoaderTestDirManager extends AbstractDirManagerFileTestCase 
         assertEquals(2, dir1.getElements().size());
         FileElement short1 = (FileElement)dir1.getElements().get(0);
         FileElement short2 = (FileElement)dir1.getElements().get(1);
-        assertFile(short1, "dir1\\" + FILE_SHORT_1);
-        assertFile(short2, "dir1\\" + FILE_SHORT_2);
+        assertFile(short1, "dir1/" + FILE_SHORT_1);
+        assertFile(short2, "dir1/" + FILE_SHORT_2);
 
         //Root/dir2
         DirElement dir2 = (DirElement)root.getElements().get(1);
@@ -48,7 +48,7 @@ public class DirTreeLoaderTestDirManager extends AbstractDirManagerFileTestCase 
         assertEquals(2, dir2.getElements().size());
         FileElement empty1 = (FileElement)dir2.getElements().get(0);
         short1 = (FileElement)dir2.getElements().get(1);
-        assertFile(empty1, "dir2\\" + FILE_EMPTY_1);
-        assertFile(short1, "dir2\\" + FILE_SHORT_1);
+        assertFile(empty1, "dir2/" + FILE_EMPTY_1);
+        assertFile(short1, "dir2/" + FILE_SHORT_1);
     }
 }

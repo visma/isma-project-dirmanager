@@ -39,11 +39,11 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
 
     public void testDepthFileElementList() throws Exception {
         DirElement dir = buildDir("dir");
-        DirElement dir1 = buildDir("dir\\dir1");
-        DirElement dir2 = buildDir("dir\\dir1\\dir2");
-        FileElement file1 = buildFileElement("dir\\", FILE_SHORT_1);
-        FileElement file2 = buildFileElement("dir\\dir1\\dir2\\", FILE_SHORT_2);
-        FileElement file3 = buildFileElement("dir\\dir1\\dir2\\", FILE_EMPTY_1);
+        DirElement dir1 = buildDir("dir/dir1");
+        DirElement dir2 = buildDir("dir/dir1/dir2");
+        FileElement file1 = buildFileElement("dir/", FILE_SHORT_1);
+        FileElement file2 = buildFileElement("dir/dir1/dir2/", FILE_SHORT_2);
+        FileElement file3 = buildFileElement("dir/dir1/dir2/", FILE_EMPTY_1);
 
         dir.addFileElement(file1);
         dir.addFileElement(dir1);
@@ -62,29 +62,29 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
     public void testFileElementRelativePath() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir2 = buildDir("dir1\\dir2");
-        DirElement dir3 = buildDir("dir1\\dir2\\dir3");
-        FileElement file1 = buildFileElement("dir1\\dir2\\dir3", FILE_SHORT_1);
+        DirElement dir2 = buildDir("dir1/dir2");
+        DirElement dir3 = buildDir("dir1/dir2/dir3");
+        FileElement file1 = buildFileElement("dir1/dir2/dir3", FILE_SHORT_1);
 
         rootDir.addFileElement(dir1);
         dir1.addFileElement(dir2);
         dir2.addFileElement(dir3);
         dir3.addFileElement(file1);
 
-        assertEquals("\\dir1\\dir2\\dir3\\five_char_file.txt", rootDir.getFileElementRelativePath(file1));
-        assertEquals("\\dir2\\dir3\\five_char_file.txt", dir1.getFileElementRelativePath(file1));
-        assertEquals("\\dir3\\five_char_file.txt", dir2.getFileElementRelativePath(file1));
-        assertEquals("\\five_char_file.txt", dir3.getFileElementRelativePath(file1));
+        assertEquals("/dir1/dir2/dir3/five_char_file.txt", rootDir.getFileElementRelativePath(file1));
+        assertEquals("/dir2/dir3/five_char_file.txt", dir1.getFileElementRelativePath(file1));
+        assertEquals("/dir3/five_char_file.txt", dir2.getFileElementRelativePath(file1));
+        assertEquals("/five_char_file.txt", dir3.getFileElementRelativePath(file1));
     }
 
 
     public void testFileElementByPath() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir2 = buildDir("dir1\\dir2");
-        FileElement file1 = buildFileElement("dir1\\dir2", FILE_SHORT_1);
-        DirElement dir3 = buildDir("dir1\\dir2\\dir3");
-        FileElement copyOfFile1 = buildFileElement("dir1\\dir2\\dir3", FILE_SHORT_1);
+        DirElement dir2 = buildDir("dir1/dir2");
+        FileElement file1 = buildFileElement("dir1/dir2", FILE_SHORT_1);
+        DirElement dir3 = buildDir("dir1/dir2/dir3");
+        FileElement copyOfFile1 = buildFileElement("dir1/dir2/dir3", FILE_SHORT_1);
 
         rootDir.addFileElement(dir1);
         dir1.addFileElement(dir2);
@@ -92,11 +92,11 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
         dir2.addFileElement(file1);
         dir3.addFileElement(copyOfFile1);
 
-        String absoluteFilePath = getAbsolutePathTestRootDir() + "dir1\\dir2\\" + FILE_SHORT_1;
+        String absoluteFilePath = getAbsolutePathTestRootDir() + "dir1/dir2/" + FILE_SHORT_1;
         AbstractFileElement fileFound = rootDir.getFileElement(absoluteFilePath);
         assertEquals(file1, fileFound);
 
-        absoluteFilePath = getAbsolutePathTestRootDir() + "dir1\\dir2\\dir3\\" + FILE_SHORT_1;
+        absoluteFilePath = getAbsolutePathTestRootDir() + "dir1/dir2/dir3/" + FILE_SHORT_1;
         fileFound = rootDir.getFileElement(absoluteFilePath);
         assertEquals(copyOfFile1, fileFound);
     }
@@ -105,11 +105,11 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
     public void testAddChildWithIndex() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir2 = buildDir("dir1\\dir2");
-        FileElement file1 = buildFileElement("dir1\\dir2", FILE_SHORT_1);
-        FileElement file2 = buildFileElement("dir1\\dir2", FILE_SHORT_2);
-        FileElement file3 = buildFileElement("dir1\\dir2", FILE_SHORT_TEN_CHAR);
-        FileElement file4 = buildFileElement("dir1\\dir2", FILE_EMPTY_1);
+        DirElement dir2 = buildDir("dir1/dir2");
+        FileElement file1 = buildFileElement("dir1/dir2", FILE_SHORT_1);
+        FileElement file2 = buildFileElement("dir1/dir2", FILE_SHORT_2);
+        FileElement file3 = buildFileElement("dir1/dir2", FILE_SHORT_TEN_CHAR);
+        FileElement file4 = buildFileElement("dir1/dir2", FILE_EMPTY_1);
 
         rootDir.addChild(dir1, 0);
         dir1.addChild(dir2, 0);
@@ -136,11 +136,11 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
     public void testAddChild() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir2 = buildDir("dir1\\dir2");
-        FileElement file1 = buildFileElement("dir1\\dir2", FILE_SHORT_1);
-        FileElement file2 = buildFileElement("dir1\\dir2", FILE_SHORT_2);
-        FileElement file3 = buildFileElement("dir1\\dir2", FILE_SHORT_TEN_CHAR);
-        FileElement file4 = buildFileElement("dir1\\dir2", FILE_EMPTY_1);
+        DirElement dir2 = buildDir("dir1/dir2");
+        FileElement file1 = buildFileElement("dir1/dir2", FILE_SHORT_1);
+        FileElement file2 = buildFileElement("dir1/dir2", FILE_SHORT_2);
+        FileElement file3 = buildFileElement("dir1/dir2", FILE_SHORT_TEN_CHAR);
+        FileElement file4 = buildFileElement("dir1/dir2", FILE_EMPTY_1);
 
         rootDir.addChild(dir1);
         dir1.addChild(dir2);
@@ -167,8 +167,8 @@ public class DirElementTestDirManager extends AbstractDirManagerFileTestCase {
     public void testFindChild() throws Exception {
         DirElement rootDir = buildRootDir();
         DirElement dir1 = buildDir("dir1");
-        DirElement dir2 = buildDir("dir1\\dir2");
-        FileElement file1 = buildFileElement("dir1\\dir2\\", FILE_SHORT_1);
+        DirElement dir2 = buildDir("dir1/dir2");
+        FileElement file1 = buildFileElement("dir1/dir2/", FILE_SHORT_1);
 
         rootDir.addFileElement(dir1);
         dir1.addFileElement(dir2);

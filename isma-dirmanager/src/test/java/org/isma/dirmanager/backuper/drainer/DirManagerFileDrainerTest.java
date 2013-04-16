@@ -20,10 +20,10 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         DirElement target = buildEmptyTarget(source);
 
         FileDrainer drainer = new FileDrainer(source, target, new DefaultLogger());
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\" + FILE_EMPTY_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_2), 1);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_TEN_CHAR), 2);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/" + FILE_EMPTY_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_2), 1);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_TEN_CHAR), 2);
 
         FileElement file1 = target.findChild(FILE_SHORT_1);
         FileElement file2 = target.findChild(FILE_SHORT_2);
@@ -35,19 +35,19 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         assertTrue(((BackuperFileElement)file2).isSynchronized());
         assertTrue(((BackuperFileElement)file3).isSynchronized());
 
-        assertTrue(target.findChild(FILE_EMPTY_1).getFile().getAbsolutePath().endsWith("target\\" + FILE_EMPTY_1));
+        assertTrue(target.findChild(FILE_EMPTY_1).getFile().getAbsolutePath().endsWith("target/" + FILE_EMPTY_1));
         assertTrue(target.findChild(FILE_SHORT_1)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("target\\dir1\\" + FILE_SHORT_1));
+                         .endsWith("target/dir1/" + FILE_SHORT_1));
         assertTrue(target.findChild(FILE_SHORT_2)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("target\\dir1\\" + FILE_SHORT_2));
+                         .endsWith("target/dir1/" + FILE_SHORT_2));
         assertTrue(target.findChild(FILE_SHORT_TEN_CHAR)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("target\\dir1\\" + FILE_SHORT_TEN_CHAR));
+                         .endsWith("target/dir1/" + FILE_SHORT_TEN_CHAR));
 
         assertTrue(target.findChild(FILE_SHORT_1).getFile().exists());
         assertTrue(target.findChild(FILE_SHORT_2).getFile().exists());
@@ -60,10 +60,10 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         DirElement target = buildUnSynchroTarget(source);
 
         FileDrainer drainer = new FileDrainer(source, target, new DefaultLogger());
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\" + FILE_EMPTY_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_2), 1);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_TEN_CHAR), 2);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/" + FILE_EMPTY_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_2), 1);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_TEN_CHAR), 2);
 
         FileElement file1 = target.findChild(FILE_SHORT_1);
         FileElement file2 = target.findChild(FILE_SHORT_2);
@@ -82,11 +82,11 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         DirElement target = buildNotCompleteTargetOnUnSynchroTree(source);
 
         FileDrainer drainer = new FileDrainer(source, target, new DefaultLogger());
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\" + FILE_EMPTY_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\"), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_2), 1);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\dir1\\" + FILE_SHORT_TEN_CHAR), 2);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/" + FILE_EMPTY_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/"), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_2), 1);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/dir1/" + FILE_SHORT_TEN_CHAR), 2);
 
         FileElement file0 = target.findChild(FILE_EMPTY_1);
         FileElement file1 = target.findChild(FILE_SHORT_1);
@@ -101,19 +101,19 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         assertTrue(((BackuperFileElement)file2).isSynchronized());
         assertTrue(((BackuperFileElement)file3).isSynchronized());
 
-        assertTrue(target.findChild(FILE_EMPTY_1).getFile().getAbsolutePath().endsWith("target\\" + FILE_EMPTY_1));
+        assertTrue(target.findChild(FILE_EMPTY_1).getFile().getAbsolutePath().endsWith("target/" + FILE_EMPTY_1));
         assertTrue(target.findChild(FILE_SHORT_1)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("target\\otherDir\\" + FILE_SHORT_1));
+                         .endsWith("target/otherDir/" + FILE_SHORT_1));
         assertTrue(target.findChild(FILE_SHORT_2)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("target\\otherDir\\" + FILE_SHORT_2));
+                         .endsWith("target/otherDir/" + FILE_SHORT_2));
         assertTrue(target.findChild(FILE_SHORT_TEN_CHAR)
                          .getFile()
                          .getAbsolutePath()
-                         .endsWith("\\target\\_DRAINED_FILES\\dir1\\" + FILE_SHORT_TEN_CHAR));
+                         .endsWith("/target/_DRAINED_FILES/dir1/" + FILE_SHORT_TEN_CHAR));
 
         assertTrue(target.findChild(FILE_SHORT_1).getFile().exists());
         assertTrue(target.findChild(FILE_SHORT_2).getFile().exists());
@@ -126,8 +126,8 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         DirElement target = buildEmptyTarget(source);
 
         FileDrainer drainer = new FileDrainer(source, target, new DefaultLogger());
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\" + FILE_SHORT_1), 0);
-        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source\\" + FILE_SHORT_1_COPY), 1);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/" + FILE_SHORT_1), 0);
+        drainer.backup(source.getFileElement(getAbsolutePathTestRootDir() + "source/" + FILE_SHORT_1_COPY), 1);
 
         assertNotNull(target.findChild(FILE_SHORT_1));
         assertNull(target.findChild(FILE_SHORT_1_COPY));
@@ -136,12 +136,12 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
 
     private DirElement buildSourceWithClones() throws Exception {
         DirElement source = buildDir("source");
-        source.addFileElement(buildFileElement("\\source\\", FILE_EMPTY_1));
-        source.addFileElement(buildFileElement("\\source\\", FILE_SHORT_2));
-        source.addFileElement(buildFileElement("\\source\\", FILE_SHORT_TEN_CHAR));
+        source.addFileElement(buildFileElement("/source/", FILE_EMPTY_1));
+        source.addFileElement(buildFileElement("/source/", FILE_SHORT_2));
+        source.addFileElement(buildFileElement("/source/", FILE_SHORT_TEN_CHAR));
         //The clones files
-        source.addFileElement(buildFileElement("\\source\\", FILE_SHORT_1));
-        source.addFileElement(buildFileElement("\\source\\", FILE_SHORT_1_COPY));
+        source.addFileElement(buildFileElement("/source/", FILE_SHORT_1));
+        source.addFileElement(buildFileElement("/source/", FILE_SHORT_1_COPY));
         ((BackupableFileElement)source.findChild(FILE_SHORT_1_COPY)).setSynchronized(false);
         return source;
     }
@@ -149,12 +149,12 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
 
     private DirElement buildSource() throws Exception {
         DirElement source = buildDir("source");
-        DirElement dir = buildDir("\\source\\dir1");
-        source.addFileElement(buildFileElement("\\source\\", FILE_EMPTY_1));
+        DirElement dir = buildDir("/source/dir1");
+        source.addFileElement(buildFileElement("/source/", FILE_EMPTY_1));
         source.addFileElement(dir);
-        dir.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_1));
-        dir.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_2));
-        dir.addFileElement(buildFileElement("\\source\\dir1", FILE_SHORT_TEN_CHAR));
+        dir.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_1));
+        dir.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_2));
+        dir.addFileElement(buildFileElement("/source/dir1", FILE_SHORT_TEN_CHAR));
         return source;
     }
 
@@ -167,7 +167,7 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         ((BackupableFileElement)source.findChild(FILE_SHORT_TEN_CHAR)).setSynchronized(false);
         //
         DirElement target = buildDir("target");
-        DirElement dir1 = buildDir("\\target\\dir1");
+        DirElement dir1 = buildDir("/target/dir1");
         target.addFileElement(dir1);
         return target;
     }
@@ -178,11 +178,11 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         ((BackupableFileElement)source.findChild(FILE_EMPTY_1)).setSynchronized(false);
         //
         DirElement target = buildDir("target");
-        DirElement dir = buildDir("\\target\\otherDir");
+        DirElement dir = buildDir("/target/otherDir");
         target.addFileElement(dir);
-        dir.addFileElement(buildFileElement("\\target\\otherDir", FILE_SHORT_1));
-        dir.addFileElement(buildFileElement("\\target\\otherDir", FILE_SHORT_2));
-        dir.addFileElement(buildFileElement("\\target\\otherDir", FILE_SHORT_TEN_CHAR));
+        dir.addFileElement(buildFileElement("/target/otherDir", FILE_SHORT_1));
+        dir.addFileElement(buildFileElement("/target/otherDir", FILE_SHORT_2));
+        dir.addFileElement(buildFileElement("/target/otherDir", FILE_SHORT_TEN_CHAR));
         return target;
     }
 
@@ -193,12 +193,12 @@ public class DirManagerFileDrainerTest extends AbstractDirManagerFileTestCase {
         ((BackupableFileElement)source.findChild(FILE_SHORT_TEN_CHAR)).setSynchronized(false);
         //
         DirElement target = buildDir("target");
-        DirElement dir = buildDir("\\target\\otherDir");
+        DirElement dir = buildDir("/target/otherDir");
         target.addFileElement(dir);
-        dir.addFileElement(buildFileElement("\\target\\otherDir", FILE_SHORT_1));
-        dir.addFileElement(buildFileElement("\\target\\otherDir", FILE_SHORT_2));
+        dir.addFileElement(buildFileElement("/target/otherDir", FILE_SHORT_1));
+        dir.addFileElement(buildFileElement("/target/otherDir", FILE_SHORT_2));
         //prerequis au drain
-        DirElement drainDir = buildDir("\\target\\_DRAINED_FILES");
+        DirElement drainDir = buildDir("/target/_DRAINED_FILES");
         target.addFileElement(drainDir);
         return target;
     }
