@@ -38,7 +38,7 @@
     </dependencyManagement>
     <modules>
         <module>isma-dirmanager</module>
-		<!--<module>isma-dirmanager-release-test</module>-->
+		<module>isma-dirmanager-release-test</module>
     </modules>
     <scm>
         <connection>scm:git:https://github.com/visma/isma-project-dirmanager.git</connection>

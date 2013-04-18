@@ -27,7 +27,6 @@
         <dependency>
             <groupId>net.codjo.release-test</groupId>
             <artifactId>codjo-release-test</artifactId>
-            <version>1.90-SNAPSHOT</version>
         </dependency>
         <!--<dependency>-->
         <!--<groupId>net.codjo.gui-toolkit</groupId>-->
@@ -63,15 +62,15 @@
                         <goals>
                             <goal>unpack</goal>
                         </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>jcom</groupId>
-                                    <artifactId>jcom-windows-x86</artifactId>
-                                    <outputDirectory>${basedir}\target\dll</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
+                        <!--<configuration>-->
+                            <!--<artifactItems>-->
+                                <!--<artifactItem>-->
+                                    <!--<groupId>jcom</groupId>-->
+                                    <!--<artifactId>jcom-windows-x86</artifactId>-->
+                                    <!--<outputDirectory>${basedir}\target\dll</outputDirectory>-->
+                                <!--</artifactItem>-->
+                            <!--</artifactItems>-->
+                        <!--</configuration>-->
                     </execution>
                 </executions>
             </plugin>
