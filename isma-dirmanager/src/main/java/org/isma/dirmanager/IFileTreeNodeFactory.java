@@ -6,7 +6,7 @@ import org.isma.dirmanager.model.DirElement;
 import org.isma.dirmanager.model.FileElement;
 
 public interface IFileTreeNodeFactory {
-    public DirectoryTreeNode buildDirectoryTreeNode(DirElement dirElement);
+    DirectoryTreeNode buildDirectoryTreeNode(DirElement dirElement);
 
-    public AbstractFileTreeNode buildFileTreeNode(FileElement fileElement);
+    AbstractFileTreeNode buildFileTreeNode(FileElement fileElement);
 }

@@ -7,11 +7,11 @@ import org.isma.dirmanager.main.gui.MainForm;
 import javax.swing.*;
 
 public interface IMainLogic extends IMenuBarLogic {
-    public AbstractDirManagerLogic getCurrentSubLogic();
+    AbstractDirManagerLogic getCurrentSubLogic();
 
 
-    public MainForm getForm();
+    MainForm getForm();
 
 
-    public JFrame getParentFrame();
+    JFrame getParentFrame();
 }

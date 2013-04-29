@@ -88,7 +88,7 @@ public class FileDrainer implements IFileBackuper {
         boolean existsParentDirectory = targetFile.getParentFile().exists();
         AbstractFileElement syncFile;
         if (existsParentDirectory) {
-            syncFile = synchronizeFile(sourceFileElement, childIndex, targetFile);
+            syncFile = synchronizeFile(sourceFileElement, targetFile);
         }
         else {
             syncFile = doDrain(sourceFileElement);
@@ -106,13 +106,13 @@ public class FileDrainer implements IFileBackuper {
             return synchronizeDir((BackuperDirElement)sourceFileElement, -1, targetFile);
         }
         else {
-            return synchronizeFile((BackuperFileElement)sourceFileElement, -1, targetFile);
+            return synchronizeFile((BackuperFileElement)sourceFileElement, targetFile);
         }
     }
 
 
     //TODO des copier coller avec FileSynchronizer (?)
-    private BackuperFileElement synchronizeFile(BackuperFileElement sourceFileElement, int childIndex, File targetFile)
+    private BackuperFileElement synchronizeFile(BackuperFileElement sourceFileElement, File targetFile)
           throws Exception {
         FileUtils.copyFile(sourceFileElement.getFile(), targetFile);
         sourceFileElement.setSynchronized(true);

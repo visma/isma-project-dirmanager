@@ -32,7 +32,7 @@ public enum FileIconEnum {
         for (FileIconEnum fileIconEnum : values()) {
             String extension = FileUtils.getExtension(file);
             for (String currExtension : fileIconEnum.extensions) {
-                if (extension.toLowerCase().equals(currExtension)) {
+                if (extension.equalsIgnoreCase(currExtension)) {
                     return fileIconEnum.iconEnum.getImageIcon();
                 }
             }

@@ -5,14 +5,14 @@ import org.isma.core.Configuration;
 import java.io.File;
 
 public interface IDirConfiguration extends Configuration {
-    public String getSourceFilePath();
+    String getSourceFilePath();
 
 
-    public File getSource();
+    File getSource();
 
 
-    public String getTargetFilePath();
+    String getTargetFilePath();
 
 
-    public File getTarget();
+    File getTarget();
 }

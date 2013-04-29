@@ -9,16 +9,11 @@ import javax.swing.tree.DefaultTreeModel;
 import java.util.Enumeration;
 
 public class FileElementRefactoringVisitor implements FileTreeNodeVisitor {
-    //private DirectoryTreeNode actualRootTreeNode;
-    //private DefaultTreeModel actualTreeModel;
     private DirectoryTreeNode resultRootTreeNode;
     private DefaultTreeModel resultTreeModel;
 
 
-    public FileElementRefactoringVisitor(/*DirectoryTreeNode actualRootTreeNode, DefaultTreeModel actualTreeModel,*/
-                                         DirectoryTreeNode resultRootTreeNode, DefaultTreeModel resultTreeModel) {
-        //this.actualRootTreeNode = actualRootTreeNode;
-        //this.actualTreeModel = actualTreeModel;
+    public FileElementRefactoringVisitor(DirectoryTreeNode resultRootTreeNode, DefaultTreeModel resultTreeModel) {
         this.resultRootTreeNode = resultRootTreeNode;
         this.resultTreeModel = resultTreeModel;
     }
@@ -41,7 +36,6 @@ public class FileElementRefactoringVisitor implements FileTreeNodeVisitor {
         if (refactorableFileElement.isEligible()) {
             refactorableFileElement.save();
             resultTreeModel.nodeChanged(resultRootTreeNode);
-            //actualTreeModel.nodeChanged(actualRootTreeNode);
         }
     }
 }

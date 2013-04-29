@@ -12,17 +12,14 @@ import java.util.Enumeration;
 public class FileElementRefactoringMarkerVisitor implements FileTreeNodeVisitor {
     private RefactorListener refactorListener;
     private FileRefactoringMarker fileRenamer;
-    //private DefaultTreeModel actualTreeModel;
     private DefaultTreeModel resultTreeModel;
 
 
     public FileElementRefactoringMarkerVisitor(RefactorListener refactorListener,
                                                FileRefactoringMarker fileRenamer,
-                                               //DefaultTreeModel actualTreeModel,
                                                DefaultTreeModel resultTreeModel) {
         this.refactorListener = refactorListener;
         this.fileRenamer = fileRenamer;
-        //this.actualTreeModel = actualTreeModel;
         this.resultTreeModel = resultTreeModel;
     }
 
@@ -40,7 +37,6 @@ public class FileElementRefactoringMarkerVisitor implements FileTreeNodeVisitor 
         if (actualFileTreeNode.getFileElement().isDirectory()) {
             return;
         }
-        //TreeNode[] pathToRoot = actualTreeModel.getPathToRoot(actualFileTreeNode);
         TreeNode[] pathToRoot = resultTreeModel.getPathToRoot(actualFileTreeNode);
         TreeNode parentNode = pathToRoot[pathToRoot.length - 2];
         TreeNode childNode = pathToRoot[pathToRoot.length - 1];
@@ -50,7 +46,6 @@ public class FileElementRefactoringMarkerVisitor implements FileTreeNodeVisitor 
                                                                                                          childIndex);
         String newName = fileRenamer.getNewName(actualFileTreeNode.getFileElement());
         if (newName != null) {
-            //((RefactorableFileTreeNode)actualFileTreeNode).rename(actualTreeModel, newName);
             resultFileTreeNode.rename(resultTreeModel, newName);
             refactorListener.existRefactoring();
         }

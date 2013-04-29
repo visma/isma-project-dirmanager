@@ -25,7 +25,7 @@ public class FileComparator implements Comparator<FileElement> {
         }
         catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("erreur lors de la comparaison de fichiers");
+            throw new RuntimeException("erreur lors de la comparaison de fichiers", e);
         }
     }
 

@@ -102,7 +102,7 @@ public class DirElement extends AbstractFileElement {
     }
 
 
-    private DirElement findParent(AbstractFileElement fileElement) throws RuntimeException {
+    private DirElement findParent(AbstractFileElement fileElement) {
         String parentPath = fileElement.getFile().getParentFile().getAbsolutePath();
         if (parentPath.equals(getFile().getAbsolutePath())) {
             return this;

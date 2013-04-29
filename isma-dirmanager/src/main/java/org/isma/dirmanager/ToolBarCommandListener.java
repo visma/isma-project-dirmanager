@@ -2,26 +2,26 @@ package org.isma.dirmanager;
 
 public interface ToolBarCommandListener {
 
-    public boolean canExpand();
+    boolean canExpand();
 
 
-    public void onExpand();
+    void onExpand();
 
 
-    public boolean canCollapse();
+    boolean canCollapse();
 
 
-    public void onCollapse();
+    void onCollapse();
 
 
-    public boolean canLoad();
+    boolean canLoad();
 
 
-    public void onLoad() throws Exception;
+    void onLoad() throws Exception;
 
 
-    public boolean canRun();
+    boolean canRun();
 
 
-    public void onRun() throws Exception;
+    void onRun() throws Exception;
 }

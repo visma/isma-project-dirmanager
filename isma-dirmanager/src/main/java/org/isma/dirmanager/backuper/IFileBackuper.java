@@ -4,5 +4,5 @@ import org.isma.dirmanager.model.AbstractFileElement;
 
 public interface IFileBackuper {
 
-    public AbstractFileElement backup(AbstractFileElement fileElement, int childIndex) throws Exception;
+    AbstractFileElement backup(AbstractFileElement fileElement, int childIndex) throws Exception;
 }

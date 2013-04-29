@@ -6,7 +6,7 @@ import org.isma.dirmanager.model.FileElement;
 import java.io.File;
 
 public interface IFileFactory {
-    public FileElement buildFile(File file);
+    FileElement buildFile(File file);
 
-    public DirElement buildDirectory(File file);
+    DirElement buildDirectory(File file);
 }
